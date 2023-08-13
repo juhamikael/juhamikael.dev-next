@@ -4,15 +4,13 @@ import Link from "next/link";
 
 import { usePathname } from "next/navigation";
 
-import { FaGithub, FaLinkedin, FaInstagram } from "react-icons/fa";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { AiOutlineClose } from "react-icons/ai";
-import { IoLogoDiscord } from "react-icons/io5";
 
 import navItemStyles from "@/app/styles/underline-hover.module.css";
 import ToggleNightmode from "./ToggleNightmode";
-import type { IIconDetail } from "@/lib/Icons";
-import Icons from "@/lib/Icons";
+import type { IIconDetail } from "@/components/Icons";
+import Icons from "@/components/Icons";
 
 interface NavbarProps {
   prop?: string;
@@ -81,9 +79,9 @@ const NavLink: FC<NavLinkProps> = ({ href, pageName }) => {
 const NavLinksList: FC<INavLinksListProps> = ({ links, isOpen }) => {
   return (
     <div
-      className={`flex flex-col space-y-2 lg:flex-row lg:space-x-6 lg:justify-center lg:w-full ${
+      className={`flex flex-col space-y-2 2xl:flex-row 2xl:space-x-6 2xl:justify-center 2xl:w-full ${
         isOpen ? "block" : "hidden"
-      } lg:block`}
+      } 2xl:block`}
     >
       {links.map((linkKey) => {
         const { href, pageName } = NavLinksObject[linkKey];
@@ -105,15 +103,15 @@ const Navbar: FC<NavbarProps> = ({}) => {
   );
 
   return (
-    <nav className="p-4 flex flex-col lg:flex-row lg:items-center lg:mx-20">
+    <nav className="p-4 flex flex-col 2xl:flex-row 2xl:items-center 2xl:mx-20">
       <div className="fixed right-0 p-4 top-0">
         <ToggleNightmode
-          className={`${isOpen ? "block" : "hidden"} lg:block`}
+          className={`${isOpen ? "block" : "hidden"} 2xl:block`}
         />
       </div>
-      <div className="flex justify-center lg:mx-auto items-center space-x-4">
+      <div className="flex justify-center 2xl:mx-auto items-center gap-x-4">
         <button
-          className={`lg:hidden self-center mt-2`}
+          className={`2xl:hidden self-center mt-2`}
           onClick={() => setIsOpen(!isOpen)}
         >
           {!isOpen ? (

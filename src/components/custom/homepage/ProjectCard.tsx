@@ -8,11 +8,12 @@ import {
   CardContent,
 } from "@/components/ui/card";
 import zoom from "@/app/styles/zoom.module.css";
-import { IconsObject } from "@/lib/Icons";
+import { IconsObject } from "@/lib/icons";
 import Link from "next/link";
 import { AiTwotoneDownCircle } from "react-icons/ai";
 import { BsArrowRightCircleFill } from "react-icons/bs";
-import StraightLine from "../StraightLine";
+import StraightLine from "../../StraightLine";
+import { ProjectLanguagesObject } from "@/lib/projectLanguages";
 
 interface ProjectCardProps {
   prop?: string;
@@ -25,40 +26,6 @@ interface ProjectCardProps {
 }
 
 type LanguageKeys = keyof typeof ProjectLanguagesObject;
-
-const ProjectLanguagesObject = {
-  typescript: "TypeScript",
-  javascript: "JavaScript",
-  react: "React",
-  nextjs: "Next.js",
-  nodejs: "Node.js",
-  python: "Python",
-  tailwindcss: "TailwindCSS",
-  tauri: "Tauri",
-  rust: "Rust",
-
-  // API Frameworks
-  fastApi: "FastAPI",
-  express: "Express",
-  // Apis
-  spotifyApi: "Spotify API",
-
-  //database
-  mongodb: "MongoDB",
-  postgresql: "PostgreSQL",
-  firebase: "Firebase",
-  redis: "Redis",
-  mysql: "MySQL",
-  sqlite: "SQLite",
-
-  //DBaas
-  supabase: "Supabase",
-  fauna: "Fauna",
-  //ORMs
-  prisma: "Prisma",
-  kysely: "Kysely",
-  drizzle: "Drizzle",
-} as const;
 
 const ProjectCard: FC<ProjectCardProps> = ({
   projectName,
