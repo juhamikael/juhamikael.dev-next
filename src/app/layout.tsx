@@ -20,7 +20,7 @@ export default function RootLayout({
     <>
       <html lang="en" suppressHydrationWarning>
         <head />
-        <body className={`mx-20 lg:mx-96 ${font.className}`}>
+        <body className={`mx-20 2xl:mx-96 ${font.className}`}>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <Navbar />
             {children}

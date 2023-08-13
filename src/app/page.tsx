@@ -11,12 +11,12 @@ import {
 } from "@/components/ui/card";
 import StraightLine from "@/components/StraightLine";
 import Link from "next/link";
-import ProjectCard from "@/components/custom/ProjectCard";
+import ProjectCard from "@/components/custom/homepage/ProjectCard";
 export default function Home() {
   return (
-    <div className="lg:w-2/3 mx-auto">
+    <div className="w-full 2xl:w-2/3 mx-auto">
       <Card className="bg-transparent border-none ">
-        <CardHeader className="flex flex-row items-center gap-10">
+        <CardHeader className="flex flex-col 2xl:flex-row items-center gap-10">
           <Image
             src={profilePic}
             alt="Profile picture"
@@ -42,12 +42,14 @@ export default function Home() {
             </div>
           </div>
         </CardHeader>
-        <CardContent className="max-w-full prose prose-p:text-sm prose-p:text-card-foreground prose-a:text-primary prose-a:font-bold">
-          <About />
+        <CardContent className="px-0">
+          <div className="max-w-full prose prose-p:text-sm prose-p:text-card-foreground prose-a:text-primary prose-a:font-bold">
+            <About />
+          </div>
         </CardContent>
       </Card>
       <StraightLine className="mb-6 mt-2" />
-      <div className="grid grid-cols-2 w-full gap-8">
+      <div className="grid 2xl:grid-cols-2 w-full gap-8">
         <ProjectCard
           languages={["tauri", "rust", "typescript", "react", "tailwindcss"]}
           projectName="File Organizer"
