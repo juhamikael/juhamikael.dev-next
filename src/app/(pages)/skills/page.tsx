@@ -98,7 +98,7 @@ const SkillsPage = () => {
   const skillKeys = ["Technical", "UI / UX", "Audio & Video"];
   return (
     <div className="flex justify-center space-y-2 text-white">
-      <div className="mx-4 w-full lg:w-1/2">
+      <div className="mx-4 w-full 2xl:w-1/2">
         <div className="w-full">
           {skillKeys.map((key) => (
             <div className="ml-5 mr-5 flex flex-col" key={key}>
