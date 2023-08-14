@@ -13,7 +13,7 @@ import Link from "next/link";
 import { AiTwotoneDownCircle } from "react-icons/ai";
 import { BsArrowRightCircleFill } from "react-icons/bs";
 import StraightLine from "../../StraightLine";
-import { ProjectLanguagesObject } from "@/lib/projectLanguages";
+import { ProjectLanguagesObject } from "../../../../sanity/lib/projectLanguages";
 
 interface ProjectCardProps {
   prop?: string;
