@@ -12,7 +12,13 @@ import {
 import StraightLine from "@/components/StraightLine";
 import Link from "next/link";
 import ProjectCard from "@/components/custom/homepage/ProjectCard";
-export default function Home() {
+import { PortableText } from "@portabletext/react";
+import { getAbout } from "@/../sanity/lib/queries";
+import { cachedClient, client } from "@/../sanity/lib/client";
+
+export default async function Home() {
+  const about = await cachedClient(getAbout);
+
   return (
     <div className="w-full 2xl:w-2/3 mx-auto">
       <Card className="bg-transparent border-none ">
@@ -44,7 +50,7 @@ export default function Home() {
         </CardHeader>
         <CardContent className="px-0">
           <div className="max-w-full prose prose-p:text-sm prose-p:text-card-foreground prose-a:text-primary prose-a:font-bold">
-            <About />
+            <PortableText value={about[0].body.map((block) => block)} />
           </div>
         </CardContent>
       </Card>
