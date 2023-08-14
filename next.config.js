@@ -1,17 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  
-  experimental: {
-    mdxRs: true,
+  images: {
+    domains: ["cdn.sanity.io"],
   },
+  reactStrictMode: true,
 };
-const withMDX = require("@next/mdx")({
-  extension: /\.mdx?$/,
-  options: {
-    remarkPlugins: [],
-    rehypePlugins: [],
-  },
-  
-});
 
-module.exports = withMDX(nextConfig);
+module.exports = nextConfig;
