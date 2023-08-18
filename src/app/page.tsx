@@ -67,8 +67,8 @@ export default async function Home() {
           </div>
         </CardContent>
       </Card>
-      <StraightLine className="mb-6 mt-2" />
-      <h1 className="text-card-primary font-black text-2xl underline underline-offset-3">
+      <StraightLine className="mb-6 mt-2 border-card-foreground/20" />
+      <h1 className="text-card-primary font-black text-2xl ">
         {"Things I've built"}
       </h1>
       {projects.map((project) => (
