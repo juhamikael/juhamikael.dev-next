@@ -1,6 +1,6 @@
 "use client";
 import { FC } from "react";
-import type { SanityDocument } from "@sanity/client";
+import { SanityDocument } from "next-sanity";
 import Link from "next/link";
 interface ProjectsProps {
   prop?: string;
@@ -14,7 +14,6 @@ export default function Projects({
 }) {
   const title = projects.length === 1 ? `1 Post` : `${projects.length} Posts`;
 
-  console.log(projects);
   return (
     <main className="container mx-auto grid grid-cols-1 divide-y divide-blue-100">
       <h1 className="text-2xl p-4 font-bold">{title}</h1>
