@@ -1,4 +1,3 @@
-import { FC } from "react";
 import { Metadata } from "next";
 import { keywords, description, title } from "@/app/seo/baseMetadata";
 import { getPosts } from "@/../../sanity/lib/quories/blog/queries";
@@ -33,7 +32,7 @@ const BlogPage = async ({}) => {
     <>
       {(data as IPost[]).map((item: IPost) => (
         <Card
-          className={`mt-10  border-card-foreground/10 rounded-2xl mx-auto bg-transparent ${zoom.zoom} shadow-lg shadow-primary/20 drop-shadow-2xl `}
+          className={`mt-10  border-card-foreground/10 rounded-2xl mx-auto bg-transparent ${zoom.zoom}  `}
           key={item._id}
         >
           <Link href={`/blog/${item.slug.current}`}>
