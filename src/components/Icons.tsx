@@ -4,7 +4,6 @@ import { IconsObject } from "@/lib/icons";
 
 import iconStyles from "@/app/styles/zoom.module.css";
 
-
 export interface IIconDetail {
   key: string;
   link?: string;
@@ -37,7 +36,10 @@ const Icons: FC<IContactIconsProps> = ({ icons, isOpen = false }) => {
 
         return (
           <div key={`${key}-${link || "main"}`}>
-            <Link className="hover:text-primary transition-colors dark:text-primary" href={href}>
+            <Link
+              className="hover:text-primary transition-colors dark:text-primary"
+              href={href || "/"}
+            >
               <IconComponent className={`text-2xl ${iconStyles.iconZoom}`} />
             </Link>
           </div>
