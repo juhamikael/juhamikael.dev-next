@@ -69,7 +69,7 @@ export default async function Home() {
       </Card>
       <StraightLine className="mb-6 mt-2" />
       <h1 className="text-card-primary font-black text-2xl underline underline-offset-3">
-        Things I've built
+        {"Things I've built"}
       </h1>
       {projects.map((project) => (
         <ProjectCard
