@@ -80,8 +80,8 @@ const NavLinksList: FC<INavLinksListProps> = ({ links, isOpen }) => {
   return (
     <div
       className={`flex flex-col space-y-2 2xl:flex-row 2xl:space-x-6 2xl:justify-center 2xl:w-full ${
-        isOpen ? "block" : "hidden"
-      } 2xl:block`}
+        isOpen ? "block transform-none opacity-100" : "hidden"
+      } 2xl:block block duration-500 ease-in-out transition-opacity`}
     >
       {links.map((linkKey) => {
         const { href, pageName } = NavLinksObject[linkKey];
@@ -94,7 +94,6 @@ const NavLinksList: FC<INavLinksListProps> = ({ links, isOpen }) => {
 const Navbar: FC<NavbarProps> = ({}) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  // Define the icons you want to display
   const iconDetails: IIconDetail[] = ["github", "linkedin", "discord"].map(
     (iconKey) => ({
       key: iconKey,
@@ -106,7 +105,7 @@ const Navbar: FC<NavbarProps> = ({}) => {
     <nav className="p-4 flex flex-col 2xl:flex-row 2xl:items-center 2xl:mx-20">
       <div className="fixed right-0 p-4 top-0">
         <ToggleNightmode
-          className={`${isOpen ? "block" : "hidden"} 2xl:block`}
+          className={`${isOpen ? "block" : "hidden"} 2xl:block `}
         />
       </div>
       <div className="flex justify-center 2xl:mx-auto items-center gap-x-4">
