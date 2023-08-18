@@ -17,7 +17,6 @@ const ToggleNightMode: FC<ToggleNightModeProps> = ({
   ...props
 }) => {
   const { theme, setTheme } = useTheme();
-  console.log(theme);
   const toggleTheme = () => {
     if (theme === "dark") {
       setTheme("light");
