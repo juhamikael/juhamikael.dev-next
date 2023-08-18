@@ -44,5 +44,10 @@ export const ProjectLanguagesObject = {
 
   //other
   shadcn: "Shadcn/ui",
+  xml: "XML",
   mdx: "MDX",
+  sonarqube: "SonarQube",
+  jenkins: "Jenkins",
+  git: "Git",
+  unity: "Unity",
 } as const;
