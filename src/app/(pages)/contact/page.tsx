@@ -1,11 +1,15 @@
 import { FC } from "react";
 
-interface IContactProps {
-  prop?: string;
-  children?: React.ReactNode;
-}
+import { Metadata } from "next";
+import { keywords, description, title } from "@/app/seo/baseMetadata";
 
-const ContactPage: FC<IContactProps> = ({}) => {
+export const metadata: Metadata = {
+  title: title.contact,
+  description: description.contact,
+  keywords: keywords.contact,
+};
+
+const ContactPage = ({}) => {
   return (
     <div>
       <div>contact</div>
