@@ -6,7 +6,8 @@ import { visionTool } from "@sanity/vision";
 import { defineConfig } from "sanity";
 import { deskTool } from "sanity/desk";
 import { tags } from "sanity-plugin-tags";
-
+import { markdownSchema } from "sanity-plugin-markdown";
+import { table } from "@sanity/table";
 // Go to https://www.sanity.io/docs/api-versioning to learn how API versioning works
 import { apiVersion, dataset, projectId } from "./sanity/env";
 import { schema } from "./sanity/schema";
@@ -23,5 +24,7 @@ export default defineConfig({
     // https://www.sanity.io/docs/the-vision-plugin
     visionTool({ defaultApiVersion: apiVersion }),
     tags({}),
+    markdownSchema(),
+    table(),
   ],
 });
