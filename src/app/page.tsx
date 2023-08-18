@@ -17,7 +17,7 @@ import { getProjectsData } from "@/lib/projects";
 import linkComponent from "@/components/portableText";
 import type { BlockType } from "@/app/types/projects";
 import zoom from "@/app/styles/zoom.module.css";
-
+import { getImageWidthAndHeight } from "@/lib/utils";
 import { Metadata } from "next";
 import { keywords, description, title } from "@/app/seo/baseMetadata";
 
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
 export default async function Home() {
   const about = await cachedClient(getAbout);
   const projects = await getProjectsData("landing-page-project-order");
-  const { width, height } = about[0].imageUrl;
+  const { width, height } = getImageWidthAndHeight(about[0].imageUrl);
 
   return (
     <div className="w-full 2xl:w-2/3 mx-auto">
@@ -41,7 +41,7 @@ export default async function Home() {
             alt="Profile picture"
             width={width as number}
             height={height as number}
-            className="h-40 w-40 rounded-full object-cover ring ring-primary/25"
+            className="h-40 w-40  rounded-full object-cover ring ring-primary/25"
           />
           <div>
             <CardTitle>{"Hi, I'm Juha Mikael"}</CardTitle>
@@ -68,20 +68,21 @@ export default async function Home() {
         </CardContent>
       </Card>
       <StraightLine className="mb-6 mt-2" />
-      <div className="grid 2xl:grid-cols-2 w-full gap-8">
-        {projects.map((project) => (
-          <ProjectCard
-            className={zoom.zoom}
-            projectName={project.title}
-            key={project.slug}
-            project={project}
-            showBody={false}
-            showImage={false}
-            showHrefButtons={false}
-            showReadMore
-          />
-        ))}
-      </div>
+      <h1 className="text-card-primary font-black text-2xl underline underline-offset-3">
+        Things I've built
+      </h1>
+      {projects.map((project) => (
+        <ProjectCard
+          className={`my-4 ${zoom.zoom}`}
+          projectName={project.title}
+          key={project.slug}
+          project={project}
+          showBody={false}
+          showImage={false}
+          showHrefButtons={false}
+          showReadMore
+        />
+      ))}
     </div>
   );
 }

@@ -18,8 +18,8 @@ export interface IContactIconsProps {
 const Icons: FC<IContactIconsProps> = ({ icons, isOpen = false }) => {
   return (
     <div
-      className={`ml-4 flex flex-col space-y-2 2xl:space-y-0 2xl:flex-row 2xl:space-x-2 ${
-        isOpen ? "block" : "hidden 2xl:flex"
+      className={`ml-4 flex flex-col gap-y-2 lg:space-y-0 lg:flex-row lg:space-x-2 ${
+        isOpen ? "block" : "hidden lg:flex"
       }`}
     >
       {icons.map(({ key, link, customLink }) => {
@@ -37,6 +37,7 @@ const Icons: FC<IContactIconsProps> = ({ icons, isOpen = false }) => {
         return (
           <div key={`${key}-${link || "main"}`}>
             <Link
+              target="_blank"
               className="hover:text-primary transition-colors dark:text-primary"
               href={href || "/"}
             >

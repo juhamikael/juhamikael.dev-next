@@ -53,7 +53,7 @@ const NavLinksObject = {
     pageName: "Contact",
   },
   music: {
-    href: "/music",
+    href: "https://music.juhamikael.info",
     pageName: "Music",
   },
 };
@@ -79,9 +79,9 @@ const NavLink: FC<NavLinkProps> = ({ href, pageName }) => {
 const NavLinksList: FC<INavLinksListProps> = ({ links, isOpen }) => {
   return (
     <div
-      className={`flex flex-col space-y-2 2xl:flex-row 2xl:space-x-6 2xl:justify-center 2xl:w-full ${
+      className={`flex flex-col space-y-2 lg:flex-row lg:space-x-6 lg:justify-center lg:w-full ${
         isOpen ? "block transform-none opacity-100" : "hidden"
-      } 2xl:block block duration-500 ease-in-out transition-opacity`}
+      } lg:block block duration-500 ease-in-out transition-opacity`}
     >
       {links.map((linkKey) => {
         const { href, pageName } = NavLinksObject[linkKey];
@@ -102,36 +102,46 @@ const Navbar: FC<NavbarProps> = ({}) => {
   );
 
   return (
-    <nav className="p-4 flex flex-col 2xl:flex-row 2xl:items-center 2xl:mx-20">
+    <nav className="p-4 flex flex-col lg:flex-row lg:items-center lg:mx-20">
       <div className="fixed right-0 p-4 top-0">
         <ToggleNightmode
-          className={`${isOpen ? "block" : "hidden"} 2xl:block `}
+          className={`${isOpen ? "block" : "hidden"} lg:block `}
         />
       </div>
-      <div className="flex justify-center 2xl:mx-auto items-center gap-x-4">
+      <div className="lg:mx-auto items-center gap-x-4">
         <button
-          className={`2xl:hidden self-center mt-2`}
+          className={`flex lg:hidden self-center mt-2`}
           onClick={() => setIsOpen(!isOpen)}
         >
-          {!isOpen ? (
-            <GiHamburgerMenu className="text-2xl" />
-          ) : (
-            <AiOutlineClose className="text-2xl" />
+          {!isOpen && (
+            <GiHamburgerMenu className="text-3xl hover:text-primary hover:ring ring-primary/20 rounded-lg" />
           )}
         </button>
-        <NavLinksList
-          isOpen={isOpen}
-          links={[
-            "home",
-            "blog",
-            "projects",
-            "portfolio",
-            "skills",
-            "contact",
-            "music",
-          ]}
-        />
-        <Icons isOpen={isOpen} icons={iconDetails} />
+        <div className="flex justify-center">
+          {isOpen && (
+            <button
+              className={`flex lg:hidden items-center self-center mt-2 -ml-6`}
+              onClick={() => setIsOpen(!isOpen)}
+            >
+              {isOpen && <AiOutlineClose className="text-lg mr-6" />}
+            </button>
+          )}
+          <NavLinksList
+            isOpen={isOpen}
+            links={[
+              "home",
+              "blog",
+              "projects",
+              "portfolio",
+              "skills",
+              "contact",
+              "music",
+            ]}
+          />
+          <div className="flex items-center">
+            <Icons isOpen={isOpen} icons={iconDetails} />
+          </div>
+        </div>
       </div>
     </nav>
   );

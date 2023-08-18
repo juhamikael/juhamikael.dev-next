@@ -20,7 +20,7 @@ export default function RootLayout({
   return (
     <>
       <html lang="en" className="dark" style={{ colorScheme: "dark" }}>
-        <body className={cn("mx-20 2xl:mx-96", font.className)}>
+        <body className={cn("mx-10 md:mx-20 2xl:mx-96", font.className)}>
           <ThemeProvider attribute="class">
             <Navbar />
             <div className="min-h-screen">{children}</div>
