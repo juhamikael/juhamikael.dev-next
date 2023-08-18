@@ -12,15 +12,16 @@ import { cachedClient } from "@/../sanity/lib/client";
 import { PortableText } from "@portabletext/react";
 import { proseClassName } from "@/app/styles/prose";
 import { BsFillCircleFill } from "react-icons/bs";
+import { BiSolidChevronsLeft } from "react-icons/bi";
+import StraightLine from "@/components/StraightLine";
 import { FaPencilAlt } from "react-icons/fa";
 import type { IPost, IBlogPageProps } from "@/app/types/pages/blog";
 import BlockImageComponent from "@/components/ImageComponent";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
-import { Metadata } from "next";
 import Link from "next/link";
-import { BiSolidChevronsLeft } from "react-icons/bi";
-import StraightLine from "@/components/StraightLine";
+import { Metadata } from "next";
+import { parseDate } from "@/lib/time";
 
 const components = {
   types: {
@@ -88,11 +89,22 @@ const BlogPage: FC<IBlogPageProps> = async ({ params: { slug } }) => {
             <StraightLine className="border-card-foreground/10 my-4 flex" />
             <span className="font-bold mt-1 flex gap-x-2 items-center">
               <FaPencilAlt className="inline-block" />
-              Published:
-            </span>{" "}
+              <span>{"Published:"}</span>
+              <span>
+                {post.publishedAt
+                  ? parseDate(post.publishedAt).prettifyDate
+                  : "Date not available"}
+              </span>
+            </span>
             <span className="font-bold mt-1 flex gap-x-2 items-center">
-              <FaPencilAlt className="inline-block" /> Last edited:
-            </span>{" "}
+              <FaPencilAlt className="inline-block" />
+              <span>{"Last updated:"}</span>
+              <span>
+                {post._updatedAt
+                  ? parseDate(post._updatedAt).prettifyDate
+                  : "Date not available"}
+              </span>
+            </span>
             <StraightLine className="border-card-foreground/10 mt-4 flex" />
           </CardDescription>
         </CardHeader>
