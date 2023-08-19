@@ -1,5 +1,14 @@
 import ProjectCard from "@/components/custom/projects/ProjectCard";
 import { getProjectsData } from "@/lib/projects";
+import { Metadata } from "next";
+import { keywords, description, title } from "@/app/seo/baseMetadata";
+
+export const metadata: Metadata = {
+  title: title.projects,
+  description: description.projects,
+  keywords: keywords.projects,
+};
+
 export default async function ProjectsPage() {
   const projectsData = await getProjectsData("projects-page-order");
 

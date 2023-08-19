@@ -1,9 +1,14 @@
-"use client";
-
 import SkillsAnimations from "@/components/SkillsAnimation";
 import StraightLine from "@/components/StraightLine";
 import SkillsData from "@/lib/skillsData";
+import { Metadata } from "next";
+import { keywords, description, title } from "@/app/seo/baseMetadata";
 
+export const metadata: Metadata = {
+  title: title.skills,
+  description: description.skills,
+  keywords: keywords.skills,
+};
 function SkillsSection() {
   return (
     <div>
