@@ -67,6 +67,7 @@ const NavLink: FC<NavLinkProps> = ({ href, pageName }) => {
         MozOsxFontSmoothing: "grayscale",
       }}
       href={href}
+      target={pageName !== "Music" ? "_self" : "_blank"}
       className={`hover:text-nav-font-hover text-sm ${
         pathName === href ? "text-nav-font font-bold " : ""
       } ${navItemStyles.underlineHover}`}
