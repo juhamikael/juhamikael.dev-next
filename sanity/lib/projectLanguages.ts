@@ -51,3 +51,10 @@ export const ProjectLanguagesObject = {
   git: "Git",
   unity: "Unity",
 } as const;
+
+export const languageTags = Object.entries(ProjectLanguagesObject).map(
+  ([key, value]) => ({
+    value: key,
+    label: value,
+  })
+);

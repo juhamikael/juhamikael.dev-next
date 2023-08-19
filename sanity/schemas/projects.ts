@@ -1,11 +1,5 @@
 import { defineField, defineType } from "sanity";
-import { ProjectLanguagesObject } from "../lib/projectLanguages";
-const languageTags = Object.entries(ProjectLanguagesObject).map(
-  ([key, value]) => ({
-    value: key,
-    label: value,
-  })
-);
+import { languageTags } from "../lib/projectLanguages";
 
 export default defineType({
   name: "projects",
