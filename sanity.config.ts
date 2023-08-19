@@ -11,6 +11,7 @@ import { table } from "@sanity/table";
 // Go to https://www.sanity.io/docs/api-versioning to learn how API versioning works
 import { apiVersion, dataset, projectId } from "./sanity/env";
 import { schema } from "./sanity/schema";
+import { vercelDeployTool } from "sanity-plugin-vercel-deploy";
 
 export default defineConfig({
   basePath: "/studio",
@@ -26,5 +27,6 @@ export default defineConfig({
     tags({}),
     markdownSchema(),
     table(),
+    vercelDeployTool(),
   ],
 });

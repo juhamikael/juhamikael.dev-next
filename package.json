@@ -52,6 +52,7 @@
     "sanity": "^3.15.1",
     "sanity-plugin-markdown": "^4.1.0",
     "sanity-plugin-tags": "^2.0.1",
+    "sanity-plugin-vercel-deploy": "^3.3.4",
     "styled-components": "^5.2",
     "tailwind-merge": "^1.14.0",
     "tailwindcss": "3.3.3",
