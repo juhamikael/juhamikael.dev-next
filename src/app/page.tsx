@@ -71,11 +71,11 @@ export default async function Home() {
       <h1 className="text-card-primary font-black text-2xl ">
         {"Things I've built"}
       </h1>
-      {projects.map((project) => (
+      {projects.slice(0, 4).map((project) => (
         <ProjectCard
           className={`my-4 ${zoom.zoom}`}
           projectName={project.title}
-          key={project.slug}
+          key={project.title}
           project={project}
           showBody={false}
           showImage={false}
