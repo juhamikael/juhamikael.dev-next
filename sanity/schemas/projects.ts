@@ -24,6 +24,14 @@ export default defineType({
     }),
 
     defineField({
+      name: "priority",
+      title: "Priority Number",
+      description: "The lower the number, the higher the priority",
+      type: "number",
+      validation: (Rule) => Rule.required().error("Missing priority number"),
+    }),
+
+    defineField({
       name: "body",
       title: "Body",
       type: "blockContent",

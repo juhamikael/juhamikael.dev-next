@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 };
 
 export default async function ProjectsPage() {
-  const projectsData = await getProjectsData("projects-page-order");
+  const projectsData = await getProjectsData();
 
   return (
     <div className="flex flex-col gap-y-10">

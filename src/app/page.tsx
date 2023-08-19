@@ -29,7 +29,7 @@ export const metadata: Metadata = {
 
 export default async function Home() {
   const about = await cachedClient(getAbout);
-  const projects = await getProjectsData("landing-page-project-order");
+  const projects = await getProjectsData();
   const { width, height } = getImageWidthAndHeight(about[0].imageUrl);
 
   return (
