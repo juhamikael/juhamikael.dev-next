@@ -12,17 +12,16 @@ import Link from "next/link";
 import Image from "next/image";
 import { BsFillCircleFill } from "react-icons/bs";
 import StraightLine from "../../StraightLine";
-import { SanityDocument } from "next-sanity";
 import { BsArrowRightCircleFill } from "react-icons/bs";
 import { getImageWidthAndHeight } from "@/lib/utils";
-import type { BlockType } from "@/app/types/projects";
 import { cn } from "@/lib/utils";
 import { prose } from "@/app/styles/prose";
+import { Projects, BlockType } from "@/app/types/sanity";
 
 interface ProjectCardProps extends React.HTMLAttributes<HTMLDivElement> {
   className?: string;
   projectName: string;
-  project?: SanityDocument;
+  project?: Projects;
   showImage?: boolean;
   showBody?: boolean;
   showReadMore?: boolean;
@@ -48,7 +47,7 @@ const ProjectCard: FC<ProjectCardProps> = ({
   const GitHubIcon = IconsObject["github"].icon;
   const DownloadIcon = IconsObject["download"].icon;
   const LiveIcon = IconsObject["live"].icon;
-  const languages: LanguageTag[] = project.languageTags;
+  const languages = project.languageTags;
 
   const { width, height } = getImageWidthAndHeight(project.imageUrl);
   return (

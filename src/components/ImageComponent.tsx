@@ -1,5 +1,5 @@
 import { FC } from "react";
-import type { ImageComponent } from "@/app/types/pages/blog";
+import type { ImageComponent } from "@/app/types/sanity";
 import urlBuilder from "@sanity/image-url";
 import Image from "next/image";
 import { getImageDimensions } from "@sanity/asset-utils";

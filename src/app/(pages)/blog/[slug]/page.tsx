@@ -15,7 +15,7 @@ import { BsFillCircleFill } from "react-icons/bs";
 import { BiSolidChevronsLeft } from "react-icons/bi";
 import StraightLine from "@/components/StraightLine";
 import { FaPencilAlt } from "react-icons/fa";
-import type { IPost, IBlogPageProps } from "@/app/types/pages/blog";
+import type { IPost, IBlogPageProps } from "@/app/types/sanity";
 import BlockImageComponent from "@/components/ImageComponent";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";

@@ -1,7 +1,7 @@
 import { getPortfolio } from "@/../../sanity/lib/quories/portfolio/queries";
 import { cachedClient } from "@/../sanity/lib/client";
 import { SanityDocument } from "next-sanity";
-import type { PortfolioItem } from "@/app/types/pages/portfolio";
+import type { PortfolioItem } from "@/app/types/sanity";
 import { PortableText } from "@portabletext/react";
 import { BiLinkExternal } from "react-icons/bi";
 import { BsFillCircleFill } from "react-icons/bs";

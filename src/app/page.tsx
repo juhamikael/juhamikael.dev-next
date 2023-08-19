@@ -15,7 +15,7 @@ import { getAbout } from "../../sanity/lib/quories/home/quories";
 import { cachedClient } from "@/../sanity/lib/client";
 import { getProjectsData } from "@/lib/projects";
 import linkComponent from "@/components/portableText";
-import type { BlockType } from "@/app/types/projects";
+import type { BlockType } from "@/app/types/sanity";
 import zoom from "@/app/styles/zoom.module.css";
 import { getImageWidthAndHeight } from "@/lib/utils";
 import { Metadata } from "next";

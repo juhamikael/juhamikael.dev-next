@@ -17,7 +17,7 @@ import { BsFillCircleFill } from "react-icons/bs";
 import { PortableText } from "@portabletext/react";
 import Link from "next/link";
 import StraightLine from "@/components/StraightLine";
-import type { IPost } from "@/app/types/pages/blog";
+import type { IPost } from "@/app/types/sanity";
 
 export const metadata: Metadata = {
   title: title.blog,

@@ -1,5 +1,4 @@
-import type { IPost } from "@/app/types/pages/blog";
-import type { PortfolioItem } from "@/app/types/pages/portfolio";
+import type { PortfolioItem, IPost } from "@/app/types/sanity";
 import { format } from "date-fns";
 import { SanityDocument } from "next-sanity";
 

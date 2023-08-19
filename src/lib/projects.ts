@@ -1,6 +1,7 @@
 import { projectQuery } from "@/../sanity/lib/quories/projects/queries";
 import { getOrder } from "@/../sanity/lib/quories/projects/queries";
 import { cachedClient } from "@/../sanity/lib/client";
+import type { Projects } from "@/app/types/sanity";
 
 interface Project {
   slug: {
