@@ -20,7 +20,6 @@ const BlockImageComponent: FC<ImageComponent> = ({ value, isInline }) => {
         loading="lazy"
         style={{
           display: isInline ? "inline-block" : "block",
-          //   aspectRatio: width / height,
         }}
       />
 
