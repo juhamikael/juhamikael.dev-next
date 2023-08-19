@@ -17,7 +17,7 @@ import { BsArrowRightCircleFill } from "react-icons/bs";
 import { getImageWidthAndHeight } from "@/lib/utils";
 import type { BlockType } from "@/app/types/projects";
 import { cn } from "@/lib/utils";
-import { proseClassName, prose } from "@/app/styles/prose";
+import { prose } from "@/app/styles/prose";
 
 interface ProjectCardProps extends React.HTMLAttributes<HTMLDivElement> {
   className?: string;
@@ -55,7 +55,7 @@ const ProjectCard: FC<ProjectCardProps> = ({
     <Card
       id={project.slug.current}
       className={cn(
-        `bg-transparent rounded-xl border border-card-foreground/20 shadow-lg shadow-primary/20 drop-shadow-2xl`,
+        `bg-transparent rounded-xl border border-card-foreground/20 `,
         className ?? ""
       )}
     >
@@ -69,7 +69,7 @@ const ProjectCard: FC<ProjectCardProps> = ({
           </span>
         </CardDescription>
       </CardHeader>
-      <StraightLine className="mb-2" />
+      <StraightLine className="mb-2 border-card-foreground/20" />
       {showBody && (
         <CardContent className="w-fit">
           <div className="flex flex-col gap-x-10 mt-5 2xl:flex-row ">
