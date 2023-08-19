@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { cn } from "@/lib/utils";
 const font = Montserrat({ subsets: ["latin"] });
+import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
   title: "Juha Mikael ",
@@ -25,6 +26,7 @@ export default function RootLayout({
             <Navbar />
             <div className="min-h-screen">{children}</div>
             <Footer />
+            <Toaster />
           </ThemeProvider>
         </body>
       </html>
