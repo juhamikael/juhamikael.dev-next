@@ -24,6 +24,12 @@ const Footer: FC<FooterProps> = ({}) => {
             Contact
             <BiMailSend className="inline-block ml-1" />
           </Link>
+          <Link
+            className="hover:text-primary font-black flex items-center justify-center"
+            href="/todo"
+          >
+            TODO
+          </Link>
         </div>
       </div>
     </footer>
