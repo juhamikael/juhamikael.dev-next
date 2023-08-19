@@ -1,4 +1,3 @@
-"use client";
 import { Metadata } from "next";
 import { keywords, description, title } from "@/app/seo/baseMetadata";
 import { Button } from "@/components/ui/button";
