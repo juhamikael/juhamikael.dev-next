@@ -9,7 +9,7 @@ const SkillsData = {
 
     "Web Development": {
       level: 3,
-      additionalText: ["React", "Next.js", "Astro", "SASS", "Tailwind"],
+      additionalText: ["React", "Next.js", "Astro"],
     },
 
     Python: {
