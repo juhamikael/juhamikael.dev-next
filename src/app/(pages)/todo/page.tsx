@@ -15,6 +15,7 @@ const TodoPage = ({}) => {
               <li>Skills Page</li>
               <li>Home Page</li>
             </ul>
+            <li>Skills Data to Sanity backend</li>
           </ol>
         </div>
       </div>
