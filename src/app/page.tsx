@@ -20,6 +20,7 @@ import zoom from "@/app/styles/zoom.module.css";
 import { getImageWidthAndHeight } from "@/lib/utils";
 import { Metadata } from "next";
 import { keywords, description, title } from "@/app/seo/baseMetadata";
+import { getAllByStory } from "@/lib/storyblok/getAllByStory";
 
 export const metadata: Metadata = {
   title: title.home,

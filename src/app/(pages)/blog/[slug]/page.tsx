@@ -22,6 +22,9 @@ import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { Metadata } from "next";
 import { parseDate } from "@/lib/time";
+import { getAllByStory } from "@/lib/storyblok/getAllByStory";
+import RichText from "@/components/storyblok/RichText";
+import MarkdownComponent from "@/components/storyblok/Markdown";
 
 const components = {
   types: {
@@ -36,8 +39,8 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   let slug: string = params.slug;
-  let post = (await cachedClient(getPost, { slug: slug })) as IPost;
-
+  const { body } = await getAllByStory("blog");
+  const post = body.filter((item) => item.slug === slug)[0];
   try {
     const keywords = post.keywords[0].children.map((child) => child.text);
     const BlogDescription = post.description[0].children.map(
@@ -51,37 +54,34 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   } catch (error) {
     console.error(error);
     return {
-      title: `JM | Blog | ${post.title}`,
-      keywords: [
-        "juha mikael",
-        "blog",
-        "sanity",
-        "nextjs",
-        post.categories[0].title,
-      ],
+      title: `JM | Blog | ${body[0].title}`,
+      keywords: ["juha mikael", "blog", "sanity", "nextjs", body[0].title],
     };
   }
 }
 
 const BlogPage: FC<IBlogPageProps> = async ({ params: { slug } }) => {
-  const post = (await cachedClient(getPost, { slug: slug })) as IPost;
+  // const post = (await cachedClient(getPost, { slug: slug })) as IPost;
 
+  const { body } = await getAllByStory("blog");
+  const post = body.filter((item) => item.slug === slug)[0];
+  console.log(post);
   return (
     <div className="md:flex md:justify-center">
-      <Card className="bg-transparent border border-transparent shadow-none w-full md:w-2/3 ">
+      <Card className="bg-transparent border border-transparent shadow-none w-full  ">
         <CardHeader className="py-0 mt-2">
           <CardTitle className="text-3xl md:lg:xl:2xl:text-3xl font-black">
             {post.title}
           </CardTitle>
 
           <CardDescription className="text-xs gap-2 items-center flex flex-wrap">
-            {post.blogTags?.map((tag) => (
+            {post.categories?.map((tag) => (
               <Badge
-                key={tag.label}
+                key={tag}
                 className="mr-2 w-fit flex items-center gap-x-2 p-2 rounded-2xl"
               >
                 <BsFillCircleFill className="text-card-foreground" />
-                {tag.label}
+                {tag}
               </Badge>
             ))}
           </CardDescription>
@@ -91,8 +91,8 @@ const BlogPage: FC<IBlogPageProps> = async ({ params: { slug } }) => {
               <FaPencilAlt className="inline-block" />
               <span>{"Published:"}</span>
               <span>
-                {post.publishedAt
-                  ? parseDate(post.publishedAt).prettifyDate
+                {post.published_at
+                  ? parseDate(post.published_at).prettifyDate
                   : "Date not available"}
               </span>
             </span>
@@ -100,8 +100,8 @@ const BlogPage: FC<IBlogPageProps> = async ({ params: { slug } }) => {
               <FaPencilAlt className="inline-block" />
               <span>{"Last updated:"}</span>
               <span>
-                {post._updatedAt
-                  ? parseDate(post._updatedAt).prettifyDate
+                {post.updated_at
+                  ? parseDate(post.updated_at).prettifyDate
                   : "Date not available"}
               </span>
             </span>
@@ -109,7 +109,7 @@ const BlogPage: FC<IBlogPageProps> = async ({ params: { slug } }) => {
           </CardDescription>
         </CardHeader>
         <CardContent className={cn("prose", proseClassName)}>
-          <PortableText value={post.body} components={components} />
+          <MarkdownComponent content={post.body_markdown} />
         </CardContent>
         <CardFooter>
           <Link

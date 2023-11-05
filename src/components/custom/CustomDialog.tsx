@@ -1,30 +1,31 @@
 import { FC } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+import Image from "next/image";
 
 interface CustomDialogProps {
-  prop?: string;
-  children?: React.ReactNode;
+  isOpen: boolean;
+  onClose: () => void;
+  imageSrc: string;
 }
 
-const CustomDialog: FC<CustomDialogProps> = ({ children }) => {
+const CustomDialog: FC<CustomDialogProps> = ({ isOpen, onClose, imageSrc }) => {
+  if (!isOpen) return null;
+
   return (
-    <Dialog>
-      <DialogTrigger className="uppercase font-bold w-full rounded-xl text-card-foreground mb-4">
-        View Full-Size Image
-      </DialogTrigger>
+    <Dialog isOpen={isOpen} onClose={onClose}>
       <DialogContent>
-        {children}
-        <DialogDescription className="text-center">
-          Images may appear smaller on mobile devices. For a clearer view,
-          consider checking on a larger screen.
-        </DialogDescription>
+        <div onClick={onClose} className="cursor-pointer">
+          <Image
+            src={imageSrc}
+            alt="Full size"
+            layout="responsive"
+            width={800} // Adjust as needed
+            height={600} // Adjust as needed
+          />
+        </div>
       </DialogContent>
     </Dialog>
   );
 };
+
 export default CustomDialog;

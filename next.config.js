@@ -3,6 +3,13 @@ const path = require("path");
 const nextConfig = {
   images: {
     domains: ["cdn.sanity.io"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "a.storyblok.com",
+        port: "",
+      },
+    ],
   },
   reactStrictMode: true,
   sassOptions: {
