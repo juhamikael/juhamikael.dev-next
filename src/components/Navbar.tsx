@@ -95,13 +95,6 @@ const NavLinksList: FC<INavLinksListProps> = ({ links, isOpen }) => {
 const Navbar: FC<NavbarProps> = ({}) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const iconDetails: IIconDetail[] = ["github", "linkedin", "discord"].map(
-    (iconKey) => ({
-      key: iconKey,
-      link: "main",
-    })
-  );
-
   return (
     <nav className="p-4 flex flex-col lg:flex-row lg:items-center lg:mx-20">
       <div className="fixed right-0 p-4 top-0">
@@ -129,19 +122,8 @@ const Navbar: FC<NavbarProps> = ({}) => {
           )}
           <NavLinksList
             isOpen={isOpen}
-            links={[
-              "home",
-              "blog",
-              "projects",
-              "portfolio",
-              "skills",
-              "contact",
-              "music",
-            ]}
+            links={["home", "blog", "projects", "portfolio", "skills"]}
           />
-          <div className="flex items-center">
-            <Icons isOpen={isOpen} icons={iconDetails} />
-          </div>
         </div>
       </div>
     </nav>

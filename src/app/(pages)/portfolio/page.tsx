@@ -1,11 +1,10 @@
-import { getPortfolio } from "@/../../sanity/lib/quories/portfolio/queries";
-import { cachedClient } from "@/../sanity/lib/client";
-import { SanityDocument } from "next-sanity";
-import type { PortfolioItem } from "@/app/types/sanity";
-import { PortableText } from "@portabletext/react";
-import { BiLinkExternal } from "react-icons/bi";
+import type {
+  Certificate,
+  Education,
+  WorkExperience,
+} from "@/app/types/portfolio";
+import { BiLinkExternal, BiDownload as Download } from "react-icons/bi";
 import { BsFillCircleFill } from "react-icons/bs";
-
 import {
   Card,
   CardContent,
@@ -16,98 +15,145 @@ import {
 
 import StraightLine from "@/components/StraightLine";
 import Link from "next/link";
-import { isDateLaterThanNow, orderByDate, parseDate } from "@/lib/time";
+import { isDateLaterThanNow, parseDate } from "@/lib/time";
 import { Metadata } from "next";
-
-interface CustomCardProps {
-  data: SanityDocument<PortfolioItem>;
-}
+import { getAllByStory } from "@/lib/storyblok/getAllByStory";
+import RichText from "@/components/storyblok/RichText";
+import { cn } from "@/lib/utils";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 export const metadata: Metadata = {
   title: "Juha Mikael | Portfolio",
 };
 
 const PortfolioPage = async ({}) => {
-  const portfolio = await cachedClient(getPortfolio);
-  const data = orderByDate(portfolio.map((item: SanityDocument) => item));
+  const { body: portfolio } = await getAllByStory("portfolio");
 
-  const workExperience = data.filter(
-    (item): item is PortfolioItem =>
-      "portfolio" in item && item.portfolio[0]?.value === "work-experience"
+  const certificates = portfolio.filter(
+    (item: Certificate) => item.component === "new_certificate"
   );
 
-  const education = data.filter(
-    (item): item is SanityDocument =>
-      "portfolio" in item && item.portfolio[0]?.value === "education"
+  const workExperience = portfolio.filter(
+    (item: WorkExperience) => item.portfolio_section === "work_experience"
+  );
+
+  const education = portfolio.filter(
+    (item: Education) => item.portfolio_section === "education"
   );
 
   return (
     <>
       <h1 className="text-xl md:lg:xl:2xl:text-3xl font-black">Education</h1>
       <StraightLine />
-      {education.map((item) => (
-        <EducationCard
-          key={item._id}
-          data={item as SanityDocument<PortfolioItem>}
-        />
+      {education.map((item: Education) => (
+        <EducationCard key={item._uid} {...item} />
       ))}
 
       <h1 className="text-xl md:lg:xl:2xl:text-3xl font-black mt-10">
         Work Experience
       </h1>
       <StraightLine />
-      {workExperience.map((item) => (
-        <WorkExperienceCard
-          key={item._id}
-          data={item as SanityDocument<PortfolioItem>}
-        />
+      {workExperience.map((item: WorkExperience) => (
+        <WorkExperienceCard key={item._uid} {...item} />
       ))}
+
+      <h1 className="text-xl md:lg:xl:2xl:text-3xl font-black mt-10">
+        Certificates
+      </h1>
+      <StraightLine />
+
+      <Table>
+        <TableHeader>
+          <TableRow className="hover:bg-transparent">
+            <TableHead className="text-left">Course Name</TableHead>
+            <TableHead className="text-center">Subject</TableHead>
+            <TableHead className="text-center">Language</TableHead>
+            <TableHead className="text-center">View</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {certificates.map((item: Certificate) => (
+            <TableRow key={item._uid}>
+              <TableCell className="text-left">{item.name}</TableCell>
+              <TableCell className="text-center">{item.type}</TableCell>
+              <TableCell className="text-center">
+                {item.lang === "eng" ? "English" : "Finnish"}
+              </TableCell>
+              <TableCell className="flex justify-center">
+                <Link
+                  href={item.certificate.filename}
+                  target="_blank"
+                  className="flex flex-row text-primary items-center gap-x-4"
+                >
+                  <Download className="h-8 w-8" />
+                  <span>Download</span>
+                </Link>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
     </>
   );
 };
 
-const EducationCard: React.FC<CustomCardProps> = ({ data }) => {
-  const { year: startYear } = parseDate(data.startedAt);
-  const { year: endYear } = parseDate(data.endedAt);
-
+const EducationCard: React.FC<Education> = ({
+  end_date,
+  start_date,
+  education_title,
+  degress_programme,
+  organization_name,
+}) => {
+  const { year: startYear } = parseDate(new Date(start_date));
+  const { year: endYear } = parseDate(new Date(end_date));
   return (
     <Card className="bg-transparent border-none ">
-      <CardHeader className="px-0 py-1">
+      <CardHeader className={cn("px-0 py-1")}>
         <Link
-          className=" hover:text-primary"
+          className=" hover:text-primary "
           target="_blank"
-          href={data.href.degreeProgramme || ""}
+          href={degress_programme?.url || ""}
         >
-          <div className="flex items-center gap-x-3">
-            <BiLinkExternal className=" h-4 w-4 md:lg:xl:2xl:h-5 md:lg:xl:2xl:w-5" />
-            <CardTitle className="text-sm md:lg:xl:2xl:text-2xl">
-              {data.titles.educationTitle}
+          <div className="flex items-center gap-x-3 cursor-pointer">
+            <BiLinkExternal className=" h-4 w-4 md:h-5 md:w-5" />
+            <CardTitle className={cn("text-sm md:text-2xl cursor-pointer")}>
+              {education_title}
             </CardTitle>
           </div>
         </Link>
-        <CardDescription>
-          <Link
-            className="text-primary hover:text-nav-font-hover font-bold"
-            href={data.href.companyUrl || ""}
-            target="_blank"
-          >
-            <span className="text-">{data.organization}</span>
-            <span>
-              {startYear}
-              {" - "}
-              {endYear}
-              {isDateLaterThanNow(data.endedAt) && <span> (Expected)</span>}
-            </span>
-          </Link>
+        <CardDescription className={cn("text-primary font-bold")}>
+          <span className="text-">{organization_name} </span>
+          <span>
+            {startYear}
+            {" - "}
+            {endYear}
+            {isDateLaterThanNow(new Date(end_date)) && <span> (Expected)</span>}
+          </span>
         </CardDescription>
       </CardHeader>
     </Card>
   );
 };
 
-const WorkExperienceCard: React.FC<CustomCardProps> = ({ data }) => {
-  const { monthName: startMonth, year: startYear } = parseDate(data.startedAt);
-  const { monthName: endMonth, year: endYear } = parseDate(data.endedAt);
+const WorkExperienceCard: React.FC<WorkExperience> = ({
+  start_date,
+  end_date,
+  company_website,
+  title,
+  used_languages,
+  body: description,
+}) => {
+  const { monthName: startMonth, year: startYear } = parseDate(
+    new Date(start_date)
+  );
+  const { monthName: endMonth, year: endYear } = parseDate(new Date(end_date));
 
   return (
     <Card className="bg-transparent border-none ">
@@ -115,13 +161,12 @@ const WorkExperienceCard: React.FC<CustomCardProps> = ({ data }) => {
         <Link
           className=" hover:text-primary"
           target="_blank"
-          href={data.href.companyUrl || ""}
+          href={company_website?.url || ""}
         >
           <div className="flex items-center gap-x-3">
-            <BiLinkExternal className=" h-4 w-4 md:lg:xl:2xl:h-5 md:lg:xl:2xl:w-5" />
-
-            <CardTitle className="text-sm md:lg:xl:2xl:text-2xl">
-              {data.title}
+            <BiLinkExternal className=" h-4 w-4 md:h-5 md:w-5" />
+            <CardTitle className={cn("text-sm md:text-2xl cursor-pointer")}>
+              {title}
             </CardTitle>
           </div>
         </Link>
@@ -133,13 +178,12 @@ const WorkExperienceCard: React.FC<CustomCardProps> = ({ data }) => {
         <CardDescription className="text-xs flex gap-x-2">
           <BsFillCircleFill className="text-primary" />
           <span className="truncate">
-            {data.languageTags?.map((tag) => tag.label).join(", ") ||
-              "No Languages"}
+            {used_languages?.map((tag) => tag).join(", ") || "No Languages"}
           </span>
         </CardDescription>
       </CardHeader>
       <CardContent className="px-0 prose prose-p:text-sm prose-p:text-card-foreground prose-p:my-1.5">
-        <PortableText value={data.body} />
+        <RichText document={description} />
       </CardContent>
       <StraightLine
         className="w-2/3 mt-2 mb-6 mx-auto"

@@ -17,11 +17,7 @@ export interface IContactIconsProps {
 
 const Icons: FC<IContactIconsProps> = ({ icons, isOpen = false }) => {
   return (
-    <div
-      className={`ml-4 flex flex-col gap-y-2 lg:space-y-0 lg:flex-row lg:space-x-2 ${
-        isOpen ? "block" : "hidden lg:flex"
-      }`}
-    >
+    <div className={"ml-4 flex flex-row gap-x-2"}>
       {icons.map(({ key, link, customLink }) => {
         const iconDetails = IconsObject[key];
 
