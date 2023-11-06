@@ -3,24 +3,20 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import Image from "next/image";
 
 interface CustomDialogProps {
-  isOpen: boolean;
-  onClose: () => void;
   imageSrc: string;
 }
 
-const CustomDialog: FC<CustomDialogProps> = ({ isOpen, onClose, imageSrc }) => {
-  if (!isOpen) return null;
-
+const CustomDialog: FC<CustomDialogProps> = ({ imageSrc }) => {
   return (
-    <Dialog isOpen={isOpen} onClose={onClose}>
+    <Dialog>
       <DialogContent>
-        <div onClick={onClose} className="cursor-pointer">
+        <div className="cursor-pointer">
           <Image
             src={imageSrc}
             alt="Full size"
             layout="responsive"
-            width={800} // Adjust as needed
-            height={600} // Adjust as needed
+            width={800}
+            height={600}
           />
         </div>
       </DialogContent>

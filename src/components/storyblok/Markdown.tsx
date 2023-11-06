@@ -1,28 +1,34 @@
 "use client";
-import React, { useState } from "react";
+import React, { ImgHTMLAttributes, useState } from "react";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import Image from "next/image";
-import { proseClassName } from "@/app/styles/prose";
 
 const MarkdownComponent = ({ content }: { content: string }) => {
   const [isOpen, setOpen] = useState(false);
   const [selectedImageSrc, setSelectedImageSrc] = useState("");
 
-  // Custom renderer for images within markdown
-  const ImageRenderer = ({ src, alt }) => {
+  const ImageRenderer = ({
+    src,
+    alt,
+    ...props
+  }: ImgHTMLAttributes<HTMLImageElement>) => {
+    if (!src) {
+      return null;
+    }
+
     return (
       <Image
         src={src}
-        alt={alt}
+        alt={alt || "Image"}
         layout="responsive"
-        width={400} // These are placeholder values
-        height={300} // These are placeholder values
+        width={400}
+        height={300}
         onClick={() => {
           setSelectedImageSrc(src);
           setOpen(true);
         }}
-        className="cursor-pointer"
+        className="cursor-pointer rounded-xl my-6"
       />
     );
   };
@@ -31,9 +37,15 @@ const MarkdownComponent = ({ content }: { content: string }) => {
     <>
       <Markdown
         remarkPlugins={[remarkGfm]}
-        className={proseClassName}
         components={{
           img: ImageRenderer,
+          a: ({ node, ...props }) => {
+            return (
+              <a {...props} target="_blank" rel="noopener noreferrer">
+                {props.children}
+              </a>
+            );
+          },
         }}
       >
         {content}
@@ -47,8 +59,8 @@ const MarkdownComponent = ({ content }: { content: string }) => {
             src={selectedImageSrc}
             alt="Full size"
             layout="responsive"
-            width={800} // These are placeholder values
-            height={600} // These are placeholder values
+            width={800}
+            height={600}
             className="cursor-pointer"
           />
         </div>

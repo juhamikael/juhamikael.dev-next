@@ -1,27 +1,21 @@
 import Image from "next/image";
-import Link from "next/link";
-
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
-  CardDescription,
+  CardDescriptionDiv,
 } from "@/components/ui/card";
 import StraightLine from "@/components/StraightLine";
 import ProjectCard from "@/components/custom/projects/ProjectCard";
-import { PortableText } from "@portabletext/react";
-import { getAbout } from "../../sanity/lib/quories/home/quories";
-import { cachedClient } from "@/../sanity/lib/client";
-import { getProjectsData } from "@/lib/projects";
-import linkComponent from "@/components/portableText";
-import type { BlockType } from "@/app/types/sanity";
 import zoom from "@/app/styles/zoom.module.css";
 import { getImageWidthAndHeight } from "@/lib/utils";
 import { Metadata } from "next";
 import { keywords, description, title } from "@/app/seo/baseMetadata";
 import { getAllByStory } from "@/lib/storyblok/getAllByStory";
-
+import RichText from "@/components/storyblok/RichText";
+import { ProjectData } from "./types/project";
+import { UserInfo } from "./types/userInfo";
 export const metadata: Metadata = {
   title: title.home,
   description: description.home,
@@ -29,50 +23,48 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
-  const about = await cachedClient(getAbout);
-  const projects = await getProjectsData();
-  const { width, height } = getImageWidthAndHeight(about[0].imageUrl);
+  const { body: story } = await getAllByStory("landing-page");
+
+  const projects = story.filter(
+    (block: ProjectData) => block.component === "project"
+  );
+
+  const filteredUserInfo = story.filter(
+    (block: UserInfo) => block.component === "user_info"
+  );
+
+  const userInfo = filteredUserInfo[0];
+  const { width, height } = getImageWidthAndHeight(userInfo.profile.filename);
 
   return (
     <div className="w-full 2xl:w-2/3 mx-auto">
       <Card className="bg-transparent border-none ">
         <CardHeader className="flex flex-col 2xl:flex-row items-center gap-10">
           <Image
-            src={about[0].imageUrl}
+            src={userInfo.profile.filename}
             alt="Profile picture"
             width={width as number}
             height={height as number}
-            className="h-40 w-40  rounded-full object-cover ring ring-primary/25"
+            className="h-60 w-60 rounded-xl object-cover ring ring-primary/10"
           />
           <div>
-            <CardTitle>{"Hi, I'm Juha Mikael"}</CardTitle>
-            <CardDescription>
-              Software Developer Student at{" "}
-              <Link
-                className="font-bold text-primary"
-                href="https://www.tuni.fi/en/study-with-us/software-engineering"
-                target="_blank"
-              >
-                TUNI
-              </Link>
-            </CardDescription>
+            <CardTitle>{`Hi, I'm ${userInfo?.name}`}</CardTitle>
+            <CardDescriptionDiv>
+              <RichText bio document={userInfo?.description} />
+            </CardDescriptionDiv>
             <StraightLine />
+            <div className="max-w-full prose prose-p:text-sm prose-p:my-0 prose-p:text-card-foreground prose-a:text-primary prose-a:font-bold">
+              <RichText bio document={userInfo?.bio} />
+            </div>
           </div>
         </CardHeader>
-        <CardContent className="px-0">
-          <div className="max-w-full prose prose-p:text-sm prose-p:my-0 prose-p:text-card-foreground prose-a:text-primary prose-a:font-bold">
-            <PortableText
-              value={about[0].body.map((block: BlockType) => block)}
-              components={linkComponent}
-            />
-          </div>
-        </CardContent>
+        <CardContent className="px-0"></CardContent>
       </Card>
       <StraightLine className="mb-6 mt-2 border-card-foreground/20" />
       <h1 className="text-card-primary font-black text-2xl ">
         {"Things I've built"}
       </h1>
-      {projects.slice(0, 4).map((project) => (
+      {projects.slice(0, 4).map((project: ProjectData) => (
         <ProjectCard
           className={`my-4 ${zoom.zoom}`}
           projectName={project.title}

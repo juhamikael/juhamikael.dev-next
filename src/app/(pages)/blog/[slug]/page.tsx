@@ -7,16 +7,11 @@ import {
   CardTitle,
   CardFooter,
 } from "@/components/ui/card";
-import { getPost } from "@/../sanity/lib/quories/blog/queries";
-import { cachedClient } from "@/../sanity/lib/client";
-import { PortableText } from "@portabletext/react";
 import { proseClassName } from "@/app/styles/prose";
 import { BsFillCircleFill } from "react-icons/bs";
 import { BiSolidChevronsLeft } from "react-icons/bi";
 import StraightLine from "@/components/StraightLine";
 import { FaPencilAlt } from "react-icons/fa";
-import type { IPost, IBlogPageProps } from "@/app/types/sanity";
-import BlockImageComponent from "@/components/ImageComponent";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
@@ -25,12 +20,7 @@ import { parseDate } from "@/lib/time";
 import { getAllByStory } from "@/lib/storyblok/getAllByStory";
 import RichText from "@/components/storyblok/RichText";
 import MarkdownComponent from "@/components/storyblok/Markdown";
-
-const components = {
-  types: {
-    image: BlockImageComponent,
-  },
-};
+import { BlogComponent } from "@/app/types/blog";
 
 type Props = {
   params: { slug: string };
@@ -40,32 +30,37 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   let slug: string = params.slug;
   const { body } = await getAllByStory("blog");
-  const post = body.filter((item) => item.slug === slug)[0];
+  const post: BlogComponent = body.filter(
+    (item: BlogComponent) => item.slug === slug
+  )[0];
+
   try {
-    const keywords = post.keywords[0].children.map((child) => child.text);
-    const BlogDescription = post.description[0].children.map(
-      (child) => child.text
-    );
+    const keywords = post.seo_keywords.map((child) => child);
     return {
       title: `JM | Blog | ${post.title}`,
-      description: BlogDescription[0],
-      keywords: [...keywords, ` ${post.categories[0].title}`],
+      description: post.keywords.description,
+      keywords: [...keywords, post.title],
     };
   } catch (error) {
     console.error(error);
     return {
       title: `JM | Blog | ${body[0].title}`,
-      keywords: ["juha mikael", "blog", "sanity", "nextjs", body[0].title],
+      keywords: ["juha mikael", "blog", "storyblok", "nextjs", post.title],
+      description: post.keywords.description,
     };
   }
 }
 
-const BlogPage: FC<IBlogPageProps> = async ({ params: { slug } }) => {
-  // const post = (await cachedClient(getPost, { slug: slug })) as IPost;
+interface IBlogPageProps {
+  params: { slug: string };
+}
 
+const BlogPage: FC<IBlogPageProps> = async ({ params: { slug } }) => {
   const { body } = await getAllByStory("blog");
-  const post = body.filter((item) => item.slug === slug)[0];
-  console.log(post);
+  const post = body.filter((item: BlogComponent) => item.slug === slug)[0];
+
+  const prefer_markdown = Boolean(post.prefer_markdown);
+
   return (
     <div className="md:flex md:justify-center">
       <Card className="bg-transparent border border-transparent shadow-none w-full  ">
@@ -75,7 +70,7 @@ const BlogPage: FC<IBlogPageProps> = async ({ params: { slug } }) => {
           </CardTitle>
 
           <CardDescription className="text-xs gap-2 items-center flex flex-wrap">
-            {post.categories?.map((tag) => (
+            {post.categories?.map((tag: string) => (
               <Badge
                 key={tag}
                 className="mr-2 w-fit flex items-center gap-x-2 p-2 rounded-2xl"
@@ -108,8 +103,12 @@ const BlogPage: FC<IBlogPageProps> = async ({ params: { slug } }) => {
             <StraightLine className="border-card-foreground/10 mt-4 flex" />
           </CardDescription>
         </CardHeader>
-        <CardContent className={cn("prose", proseClassName)}>
-          <MarkdownComponent content={post.body_markdown} />
+        <CardContent className={cn(proseClassName)}>
+          {prefer_markdown ? (
+            <MarkdownComponent content={post.body_markdown} />
+          ) : (
+            <RichText document={post.body_richtext} />
+          )}
         </CardContent>
         <CardFooter>
           <Link

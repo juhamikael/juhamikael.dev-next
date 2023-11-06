@@ -1,29 +1,4 @@
-import type { PortfolioItem, IPost } from "@/app/types/sanity";
 import { format } from "date-fns";
-import { SanityDocument } from "next-sanity";
-
-export const orderByDate = (
-  data: (SanityDocument | IPost | PortfolioItem)[]
-) => {
-  return data.sort((a, b) => {
-    let dateA: Date | string = new Date(0);
-    let dateB: Date | string = new Date(0);
-
-    if ("publishedAt" in a) {
-      dateA = a.publishedAt;
-    } else if ("startedAt" in a) {
-      dateA = a.startedAt;
-    }
-
-    if ("publishedAt" in b) {
-      dateB = b.publishedAt;
-    } else if ("startedAt" in b) {
-      dateB = b.startedAt;
-    }
-
-    return dateA > dateB ? -1 : 1;
-  });
-};
 
 export const parseDate = (date: Date) => {
   const parsedDate = new Date(date);
