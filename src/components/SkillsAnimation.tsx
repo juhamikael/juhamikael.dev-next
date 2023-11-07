@@ -1,8 +1,18 @@
 import React from "react";
 import styles from "@/app/styles/SkillsAnimation.module.scss";
 
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+
+import { AiOutlineBulb as ToolTipIcon } from "react-icons/ai";
+import { cn } from "@/lib/utils";
+
 interface IAnimationProps {
-  language: string;
+  language: number | string;
   howMany: number;
   additionalText: string[] | string;
 }
@@ -12,8 +22,6 @@ const SkillsAnimations: React.FC<IAnimationProps> = ({
   language,
   additionalText,
 }) => {
-  const skillLevelArray = ["Basics", "Moderate", "Good", "Excellent"];
-
   const elements = Array.from({ length: 4 }).reduce<JSX.Element[]>(
     (accumulator, _, index) => {
       const element = (
@@ -33,6 +41,36 @@ const SkillsAnimations: React.FC<IAnimationProps> = ({
     },
     []
   );
+
+  let tooltipTrigger = "";
+  let skillLevelArrayToolTipText = "";
+
+  switch (Number(howMany)) {
+    case 1:
+      tooltipTrigger = "Basics";
+      skillLevelArrayToolTipText =
+        "Familiar with fundamental concepts and can perform basic tasks";
+      break;
+    case 2:
+      tooltipTrigger = "Moderate";
+      skillLevelArrayToolTipText = "Comfortable with core techniques";
+      break;
+    case 3:
+      tooltipTrigger = "Good";
+      skillLevelArrayToolTipText =
+        "Executing tasks efficiently with developed skills.";
+      break;
+    case 4:
+      tooltipTrigger = "Excellent";
+      skillLevelArrayToolTipText =
+        "Years of work spent gaining profound understanding and solid skill";
+      break;
+    default:
+      tooltipTrigger = "Basics";
+      skillLevelArrayToolTipText = "I know the basics";
+      break;
+  }
+
   return (
     <div className="my-5 flex justify-center ">
       <div className="flex w-full flex-col justify-center text-white">
@@ -50,7 +88,16 @@ const SkillsAnimations: React.FC<IAnimationProps> = ({
         </div>
         <div className="my-3 flex flex-row space-x-1 ">{elements}</div>
         <div className="text-xs text-card-foreground">
-          {skillLevelArray[howMany - 1]}
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger className={cn("flex items-center")}>
+                {tooltipTrigger}
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>{skillLevelArrayToolTipText}</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </div>
       </div>
     </div>

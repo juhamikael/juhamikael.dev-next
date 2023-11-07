@@ -76,5 +76,23 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
+  plugins: [
+    require("tailwindcss-animate"),
+    require("@tailwindcss/typography"),
+    function ({ addUtilities, theme }) {
+      const spacing = theme("spacing");
+      const squareUtilities = Object.entries(spacing).reduce(
+        (acc, [key, value]) => {
+          acc[`.wh-${key}`] = {
+            width: value,
+            height: value,
+          };
+          return acc;
+        },
+        {}
+      );
+
+      addUtilities(squareUtilities);
+    },
+  ],
 };
