@@ -59,8 +59,6 @@ const BlogPage: FC<IBlogPageProps> = async ({ params: { slug } }) => {
   const { body } = await getAllByStory("blog");
   const post = body.filter((item: BlogComponent) => item.slug === slug)[0];
 
-  const prefer_markdown = Boolean(post.prefer_markdown);
-
   return (
     <div className="md:flex md:justify-center">
       <Card className="bg-transparent border border-transparent shadow-none w-full  ">
@@ -91,21 +89,26 @@ const BlogPage: FC<IBlogPageProps> = async ({ params: { slug } }) => {
                   : "Date not available"}
               </span>
             </span>
-            <span className="font-bold mt-1 flex gap-x-2 items-center">
-              <FaPencilAlt className="inline-block" />
-              <span>{"Last updated:"}</span>
-              <span>
-                {post.updated_at
-                  ? parseDate(post.updated_at).prettifyDate
-                  : "Date not available"}
+            {post.updated_at && (
+              <span className="font-bold mt-1 flex gap-x-2 items-center">
+                <FaPencilAlt className="inline-block" />
+                <span>{"Last updated:"}</span>
+                <span>
+                  {post.updated_at
+                    ? parseDate(post.updated_at).prettifyDate
+                    : "Date not available"}
+                </span>
               </span>
-            </span>
+            )}
             <StraightLine className="border-card-foreground/10 mt-4 flex" />
           </CardDescription>
         </CardHeader>
         <CardContent className={cn(proseClassName)}>
-          {prefer_markdown ? (
-            <MarkdownComponent content={post.body_markdown} />
+          {post.prefer_markdown ? (
+            <MarkdownComponent
+              show_line_numbers={post.show_line_numbers}
+              content={post.body_markdown}
+            />
           ) : (
             <RichText document={post.body_richtext} />
           )}

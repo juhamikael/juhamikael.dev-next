@@ -58,10 +58,14 @@ const BlogPage = async ({}) => {
                     : "Date not available"}
                 </div>
                 <div>
-                  <span className="font-bold">Updated at</span>{" "}
-                  {item.updated_at
-                    ? parseDate(new Date(item.updated_at)).prettifyDate
-                    : "Date not available"}
+                  {item.updated_at && (
+                    <>
+                      <span className="font-bold">Updated at</span>{" "}
+                      {item.updated_at
+                        ? parseDate(new Date(item.updated_at)).prettifyDate
+                        : "Date not available"}
+                    </>
+                  )}
                 </div>
               </CardDescription>
             </CardHeader>
