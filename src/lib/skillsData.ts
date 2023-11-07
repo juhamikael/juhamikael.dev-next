@@ -23,8 +23,8 @@ const SkillsData = {
     },
 
     CMS: {
-      level: 2,
-      additionalText: ["Sanity"],
+      level: 3,
+      additionalText: ["Storyblok", "Sanity"],
     },
 
     "Backend Services": {
