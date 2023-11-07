@@ -13,6 +13,7 @@ export const prose = {
   li: "prose-li:list-decimal prose-li:text-sm prose-li:mx-4 prose-li:my-1.5 prose-li:text-card-foreground",
   ol: "prose-ol:list-decimal prose-ol:text-sm prose-ol:mx-4 prose-ol:my-1.5 prose-ol:text-card-foreground",
   table: "prose-table:w-full prose-table:my-10",
+  code: "prose-code:font-mono prose-code:text-sm prose-code:py-1  prose-code:text-card-foreground prose-code:font-bold prose-code:rounded-2xl prose-code:text-primary",
   hr: "prose-hr:my-10 prose-hr:border-card-foreground/20",
   blockquote:
     "prose-blockquote:text-xs prose-blockquote:my-4 dark:prose-blockquote:text-card-foreground/30",

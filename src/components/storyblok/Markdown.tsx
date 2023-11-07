@@ -3,8 +3,42 @@ import React, { ImgHTMLAttributes, useState } from "react";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import Image from "next/image";
+import { PrismLight as SyntaxHighlighter } from "react-syntax-highlighter";
+import { nord as syntaxStyle } from "react-syntax-highlighter/dist/cjs/styles/prism";
+import rangeParser from "parse-numeric-range";
+import CopyCodeButton from "./CopyCodeButton";
+// Importing supported languages
+import {
+  jsx,
+  tsx,
+  typescript,
+  scss,
+  bash,
+  markdown,
+  json,
+} from "react-syntax-highlighter/dist/cjs/languages/prism";
 
-const MarkdownComponent = ({ content }: { content: string }) => {
+// Registering languages for syntax highlighting
+SyntaxHighlighter.registerLanguage("jsx", jsx);
+SyntaxHighlighter.registerLanguage("tsx", tsx);
+SyntaxHighlighter.registerLanguage("typescript", typescript);
+SyntaxHighlighter.registerLanguage("scss", scss);
+SyntaxHighlighter.registerLanguage("bash", bash);
+SyntaxHighlighter.registerLanguage("markdown", markdown);
+SyntaxHighlighter.registerLanguage("json", json);
+
+interface ElementData {
+  meta?: string;
+  [key: string]: any;
+}
+
+const MarkdownComponent = ({
+  content,
+  show_line_numbers,
+}: {
+  content: string;
+  show_line_numbers: boolean;
+}) => {
   const [isOpen, setOpen] = useState(false);
   const [selectedImageSrc, setSelectedImageSrc] = useState("");
 
@@ -39,20 +73,77 @@ const MarkdownComponent = ({ content }: { content: string }) => {
         remarkPlugins={[remarkGfm]}
         components={{
           img: ImageRenderer,
-          a: ({ node, ...props }) => {
-            return (
-              <a {...props} target="_blank" rel="noopener noreferrer">
-                {props.children}
-              </a>
+          code({ node, className, ...props }) {
+            const hasLang = /language-(\w+)/.exec(className || "");
+            const hasMeta = (node?.data as ElementData)?.meta;
+
+            const applyHighlights = (lineNumber: number) => {
+              if (hasMeta) {
+                const RE = /{([\d,-]+)}/;
+                const metadata = hasMeta?.replace(/\s/g, "") ?? "";
+                const strlineNumbers = RE.test(metadata)
+                  ? RE.exec(metadata)?.[1]
+                  : "0";
+
+                const highlightLines = rangeParser(strlineNumbers ?? "");
+                return highlightLines.includes(lineNumber) ? "highlight" : "";
+              }
+              return "";
+            };
+
+            const style = syntaxStyle;
+
+            const content =
+              typeof props.children === "string"
+                ? props.children.trim()
+                : Array.isArray(props.children)
+                ? props.children.join("").trim()
+                : "";
+
+            return hasLang ? (
+              <div className="relative group">
+                <div className="absolute right-2 top-2 z-10">
+                  <CopyCodeButton code={content} />
+                </div>
+                <SyntaxHighlighter
+                  style={style}
+                  language={hasLang[1]}
+                  PreTag="div"
+                  showLineNumbers={show_line_numbers}
+                  wrapLines={true}
+                  useInlineStyles={true}
+                  lineProps={(lineNumber) => ({
+                    style: { display: "block", width: "100%" },
+                    className: applyHighlights(lineNumber),
+                  })}
+                  customStyle={{
+                    whiteSpace: "pre-wrap",
+                    overflowX: "auto",
+                    position: "relative",
+                    borderRadius: "0.5em",
+                    backgroundColor: "#2d2d2d",
+                  }}
+                >
+                  {content}
+                </SyntaxHighlighter>
+              </div>
+            ) : (
+              <code className={className} {...props} />
             );
           },
+
+          a: ({ node, ...props }) => (
+            <a {...props} target="_blank" rel="noopener noreferrer">
+              {props.children}
+            </a>
+          ),
         }}
       >
         {content}
       </Markdown>
       {isOpen && (
         <div
-          className="fixed inset-0  bg-black bg-opacity-50 z-50 flex justify-center items-center"
+          className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center"
           onClick={() => setOpen(false)}
         >
           <Image

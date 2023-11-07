@@ -1,7 +1,8 @@
 import { FC } from "react";
 import StraightLine from "./StraightLine";
 import Link from "next/link";
-import { BiMailSend } from "react-icons/bi";
+import { AiOutlineMail as ContactIcon } from "react-icons/ai";
+import { BsMusicNoteList as MusicIcon } from "react-icons/bs";
 import type { IIconDetail } from "@/components/Icons";
 import Icons from "@/components/Icons";
 
@@ -43,16 +44,18 @@ const Footer: FC<FooterProps> = ({}) => {
         <section className="flex justify-end">
           <div className="flex flex-col ">
             <Link
-              className="hover:text-primary  flex items-center justify-center"
+              className="hover:text-primary flex items-center justify-end"
               href="/contact"
             >
               Contact
+              <ContactIcon className="ml-1" />
             </Link>
             <Link
-              className="hover:text-primary  flex items-center justify-center"
-              href="/https://music.juhamikael.info"
+              className="hover:text-primary flex items-center justify-end"
+              href="https://music.juhamikael.info"
             >
               Music
+              <MusicIcon className="ml-1" />
             </Link>
           </div>
         </section>
