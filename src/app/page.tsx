@@ -25,6 +25,8 @@ export const metadata: Metadata = {
 export default async function Home() {
   const { body: story } = await getAllByStory("landing-page");
 
+  console.log(story)
+
   const projects = story.filter(
     (block: ProjectData) => block.component === "project"
   );
